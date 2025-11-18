@@ -1,0 +1,9 @@
+node_modules/
+craft.db
+.env
+.DS_Store
+*.log
+dist/
+build/
+.vscode/
+.idea/

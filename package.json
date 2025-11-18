@@ -1,0 +1,21 @@
+{
+  "name": "infinite-craft",
+  "version": "1.0.0",
+  "description": "A minimal, local-first infinite crafting game",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "seed": "node seed.js",
+    "dev": "node server.js",
+    "test": "node test.js"
+  },
+  "keywords": ["game", "craft", "infinite"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^5.1.6",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "uuid": "^9.0.0"
+  }
+}
