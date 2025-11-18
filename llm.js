@@ -18,12 +18,48 @@ const NOUNS = [
   'Rainbow', 'Prism', 'Echo', 'Pulse', 'Tide', 'Whirlwind', 'Ember', 'Ash',
 ];
 
-const EMOJIS = [
-  '✨', '⚡', '🌈', '💫', '🔮', '🎆', '🌟', '💎', '🔥', '💧',
-  '🌪️', '❄️', '🍃', '⛈️', '🌊', '💨', '🌑', '☀️', '🌙', '⭐',
-  '🎨', '🌺', '🌸', '🌼', '🌻', '🌷', '🌹', '🥀', '🌳', '🌲',
-  '🏔️', '⛰️', '🌋', '🗻', '🏕️', '⛺', '🌅', '🌄', '🌠', '💐',
-];
+// Semantic mapping of nouns to their appropriate emojis
+const NOUN_TO_EMOJI = {
+  'Storm': '⛈️',
+  'Mist': '💨',
+  'Crystal': '💎',
+  'Dust': '🌪️',
+  'Powder': '💫',
+  'Essence': '✨',
+  'Force': '⚡',
+  'Wave': '🌊',
+  'Particle': '💫',
+  'Cloud': '☁️',
+  'Spark': '✨',
+  'Breeze': '💨',
+  'Glow': '✨',
+  'Surge': '🌊',
+  'Swirl': '🌀',
+  'Current': '🌊',
+  'Burst': '✨',
+  'Bloom': '🌸',
+  'Garden': '🌳',
+  'Peak': '🏔️',
+  'Canyon': '⛰️',
+  'Meadow': '🌾',
+  'Forest': '🌲',
+  'Ocean': '🌊',
+  'River': '🌊',
+  'Mountain': '🏔️',
+  'Valley': '🏜️',
+  'Flame': '🔥',
+  'Frost': '❄️',
+  'Thunder': '⛈️',
+  'Lightning': '⚡',
+  'Rainbow': '🌈',
+  'Prism': '🌈',
+  'Echo': '🔊',
+  'Pulse': '💫',
+  'Tide': '🌊',
+  'Whirlwind': '🌀',
+  'Ember': '🔥',
+  'Ash': '🟫',
+};
 
 // Predefined "magic" combinations that should always produce the same result
 const MAGIC_COMBINATIONS = {
@@ -52,29 +88,32 @@ const CONTENT_FILTER = {
 /**
  * Generate a deterministic element name + emoji for a combination
  * Uses hash-based selection from predefined lists for consistency
+ * Emojis are semantically mapped to match the noun (e.g., Ocean -> 🌊)
  */
 function generateElement(element1, element2) {
   const key = [element1.toLowerCase(), element2.toLowerCase()].sort().join('_');
-  
+
   // Check for magic combinations first
   if (MAGIC_COMBINATIONS[key]) {
     return MAGIC_COMBINATIONS[key];
   }
-  
+
   // Generate deterministic hash from element names
   const hashCode = Array.from(key).reduce((hash, char) => {
     const code = char.charCodeAt(0);
     return ((hash << 5) - hash) + code | 0; // Keep it as 32-bit integer
   }, 0);
-  
+
   const absHash = Math.abs(hashCode);
   const adjIndex = absHash % ADJECTIVES.length;
   const nounIndex = (absHash >>> 8) % NOUNS.length;
-  const emojiIndex = (absHash >>> 16) % EMOJIS.length;
-  
-  const name = `${ADJECTIVES[adjIndex]} ${NOUNS[nounIndex]}`;
-  const emoji = EMOJIS[emojiIndex];
-  
+
+  const noun = NOUNS[nounIndex];
+  const name = `${ADJECTIVES[adjIndex]} ${noun}`;
+
+  // Use semantic emoji mapping based on noun, fallback to hash-based if not found
+  const emoji = NOUN_TO_EMOJI[noun] || NOUN_TO_EMOJI['Crystal'];
+
   return { name, emoji };
 }
 
