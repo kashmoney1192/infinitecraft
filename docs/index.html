@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Craft</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1>✨ Infinite Craft</h1>
+        <div class="stats">
+          <span id="discovered">0</span> / <span id="total">0</span> discovered
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+      <!-- Left Sidebar - Elements List -->
+      <aside class="sidebar">
+        <h2>Elements</h2>
+        <div id="elements-list" class="elements-list">
+          <p class="empty">Loading...</p>
+        </div>
+      </aside>
+
+      <!-- Center - Workspace -->
+      <main class="workspace" id="workspace">
+        <div class="workspace-content">
+          <p class="workspace-hint">Drag elements from the left to combine them</p>
+          <div id="combined-items" class="combined-items"></div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar - Recipes & Info -->
+      <aside class="info-sidebar">
+        <h2>Latest Recipes</h2>
+        <div id="recipes-list" class="recipes-list">
+          <p class="empty">No recipes yet</p>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
