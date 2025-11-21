@@ -78,6 +78,7 @@ let allElements = [];
 let draggedElement = null;
 let combinedItems = [];
 let recipes = [];
+let protectedItems = new Set(); // Track recently created items (protected from immediate combination)
 const userId = `user-${Math.random().toString(36).substring(7)}`;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -207,8 +208,9 @@ function setupDragAndDrop() {
 // ==================== COMBINATION LOGIC ====================
 
 function addCombinedItem(name, emoji, x, y) {
+  const itemId = `${name}-${Date.now()}`;
   const item = {
-    id: `${name}-${Date.now()}`,
+    id: itemId,
     name,
     emoji,
     x,
@@ -216,6 +218,11 @@ function addCombinedItem(name, emoji, x, y) {
   };
 
   combinedItems.push(item);
+
+  // Protect new items from combining for 500ms (gives time to reposition)
+  protectedItems.add(itemId);
+  setTimeout(() => protectedItems.delete(itemId), 500);
+
   renderCombinedItems();
   checkForCombinations();
 }
@@ -261,6 +268,11 @@ function checkForCombinations() {
     for (let j = i + 1; j < combinedItems.length; j++) {
       const item1 = combinedItems[i];
       const item2 = combinedItems[j];
+
+      // Skip if either item is protected (just created)
+      if (protectedItems.has(item1.id) || protectedItems.has(item2.id)) {
+        continue;
+      }
 
       const distance = Math.sqrt(
         Math.pow(item1.x - item2.x, 2) + Math.pow(item1.y - item2.y, 2)
